@@ -37,7 +37,15 @@ try:
     streamlit.dataframe(back_from_function)
 except URLError as e:
   streamlit.error()
-  
+
+
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+
+my_data_rows = my_cur.fetchone()
+
+streamlit.text("Try:")
 try:
   fruit_choice2 = streamlit.text_input('What fruit would you like information about?')
   if not fruit_choice2:
@@ -52,11 +60,7 @@ my_cnx1 = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur1 = my_cnx1.cursor()
 my_cur1.execute("insert into fruit_load_lists values ('from streamlit')")
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
 
-my_data_rows = my_cur.fetchone()
 
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
