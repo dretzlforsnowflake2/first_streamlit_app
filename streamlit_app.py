@@ -37,17 +37,20 @@ try:
 except URLError as e:
   streamlit.error()
   
-
-    fruit_choice2 = streamlit.text_input('What fruit would you like information about?','Jackfruit')
-fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice2)
-fruityvice_normalized2 = pandas.json_normalize(fruityvice_response2.json())
-streamlit.dataframe(fruityvice_normalized2)
-streamlit.write('Thanks for entering ', fruit_choice)
+try:
+  fruit_choice2 = streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice2:
+      streamlit.error("Please Select a fruit to get information")
+  else:
+    back_from_function2 = get_fruityvice_data(fruit_choice2)
+    streamlit.dataframe(back_from_function2)
+except URLError as e:
+  streamlit.error()
+    
+streamlit.write('Thanks for entering ', fruit_choice2)
 
 my_cnx1 = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur1.execute("insert into fruit_load_lists values ('from streamlit')")
-
-
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
