@@ -34,7 +34,7 @@ try:
   else:
     back_from_function = get_fruityvice_data(fruit_choice)
     streamlit.dataframe(back_from_function)
-except URL Error as e:
+except URLError as e:
   streamlit.error()
   
 fruit_choice2 = streamlit.text_input('What fruit would you like information about?','Jackfruit')
