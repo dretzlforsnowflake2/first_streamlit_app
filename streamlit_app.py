@@ -31,8 +31,10 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_c
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 streamlit.dataframe(fruityvice_normalized)
 
-
-
+fruit_choice2 = streamlit.text_input('What fruit would you like information about?','Jackfruit')
+fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice2)
+fruityvice_normalized2 = pandas.json_normalize(fruityvice_response2.json())
+streamlit.dataframe(fruityvice_normalized2)
 
 
 
@@ -44,3 +46,6 @@ my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
 my_data_rows = my_cur.fetchone()
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
+
+
+
