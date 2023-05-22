@@ -48,15 +48,16 @@ try:
 except URLError as e:
   streamlit.error()
     
-streamlit.write('Thanks for entering ', fruit_choice2)
-
 my_cnx1 = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur1 = my_cnx1.cursor()
 my_cur1.execute("insert into fruit_load_lists values ('from streamlit')")
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+
 my_data_rows = my_cur.fetchone()
+
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
 
